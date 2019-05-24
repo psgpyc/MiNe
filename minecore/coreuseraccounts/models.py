@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
         )
         user.set_password(password)
         user.is_staff = True
-        user.is_admin = True
+        user.is_superuser = True
 
         user.save(using=self._db)
 
@@ -64,6 +64,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=1, default='M')
 
     is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
 
