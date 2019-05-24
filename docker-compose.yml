@@ -4,8 +4,7 @@ services:
   mine:
     build:
       context: .
-    container_name: >
-      minecore
+    container_name: minecore
     ports:
       - "8000:8000"
     volumes:
