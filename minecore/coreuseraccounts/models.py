@@ -14,6 +14,7 @@ class UserManager(BaseUserManager):
         """Creates and saves a new custom user"""
         if not email:
             raise ValueError("User must have an email address.")
+
         user = self.model(
             email=self.normalize_email(email),
             phone_number=phone_number,
@@ -65,7 +66,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
 
