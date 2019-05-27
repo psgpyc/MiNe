@@ -6,10 +6,12 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 
-CREATE_USER_URL = reverse('user:create')
+CREATE_USER_URL = reverse('userextended:create-user')
+
 
 def create_user(**params):
     return get_user_model().objects.create_user(**params)
+
 
 class PublicUserApiTest(TestCase):
     """Test the users API (public)"""
@@ -17,12 +19,14 @@ class PublicUserApiTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-    def create_valid_user_success(self):
+    def test_create_valid_user_success(self):
         """Test creating user with valid payload is successful"""
         payload = {
-            'email':"nepal@gmail.com",
-            'password':'helloworld123',
-            'name': 'mr. ghimire'}
+            'email': "nepal@gmail.com",
+            'password': 'helloworld123',
+            'phone_number': '9802151714',
+            'name': 'mr.ghimire',
+            }
 
         response = self.client.post(CREATE_USER_URL, payload)
 
@@ -35,19 +39,23 @@ class PublicUserApiTest(TestCase):
         """Tests creating user that already exists fails"""
 
         payload = {
-            'email':'nepal@gmail.com',
-            'password':'nepal123'}
+            'email': 'nepal@gmail.com',
+            'password': 'nepal123',
+            'name': 'psg',
+            'phone_number': '9802051714'
+        }
         create_user(**payload)
 
         response = self.client.post(CREATE_USER_URL, payload)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-
     def test_password_too_short(self):
         """Test that password is more than 5 character long"""
         payload = {
-            'email':'paritosh.ghimire666@gmail.com',
-            'password':'npp'}
+            'email': 'paritosh.ghimire666@gmail.com',
+            'password': 'npp',
+            'name': 'psg',
+            'phone_number': '9802051714'}
         response = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -55,8 +63,3 @@ class PublicUserApiTest(TestCase):
             email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
-
-
-
-
-

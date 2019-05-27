@@ -1,0 +1,10 @@
+from django.urls import path
+from . import views
+
+app_name = 'userextended'
+
+urlpatterns = [
+    path('create/', views.CreateUserView.as_view(), name='create-user'),
+
+
+]
