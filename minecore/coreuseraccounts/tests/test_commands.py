@@ -4,6 +4,7 @@ from django.core.management import call_command
 from django.db.utils import OperationalError
 from django.test import TestCase
 
+
 class CommandTest(TestCase):
 
     def test_wait_for_db_ready(self):
@@ -20,5 +21,3 @@ class CommandTest(TestCase):
             gi.side_effect = [OperationalError] * 5 + [True]
             call_command('wait_for_db')
             self.assertEqual(gi.call_count, 6)
-
-
