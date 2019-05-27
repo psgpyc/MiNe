@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 class ModelTests(TestCase):
 
     def test_create_user_with_email(self):
-        """ Test to validate a user is created with a email successfully"""
+        """ Test to validate a user is created with a email successfully."""
         email = "psg@mine.com"
         password = "Testpass123"
         phone = "9802051714"
