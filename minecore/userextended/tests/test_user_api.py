@@ -7,6 +7,7 @@ from rest_framework import status
 
 
 CREATE_USER_URL = reverse('userextended:create-user')
+TOKEN_URL = reverse('userextended:token-user')
 
 
 def create_user(**params):
@@ -63,3 +64,56 @@ class PublicUserApiTest(TestCase):
             email=payload['email']
         ).exists()
         self.assertFalse(user_exists)
+
+    def test_create_token_user(self):
+        """Test token is created for user"""
+        payload = {
+            'email': 'paritosh.ghimire666@gmail.com',
+            'password': 'npp',
+            'name': 'psg',
+            'phone_number': '9802051714'}
+        create_user(**payload)
+        response = self.client.post(TOKEN_URL, payload)
+
+        self.assertIn('token', response.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_token_invalid_credentials(self):
+        """Test token is not created if invalid credentials are given"""
+        create_user(
+            email="psg@gmail.com",
+            password="helpme123",
+            name="psg",
+            phone_number="9802051714")
+        payload = {
+            'email': "psg@gmail.com",
+            'password': 'helpmw12'}
+
+        response = self.client.post(TOKEN_URL, payload)
+
+        self.assertNotIn('token', response.data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_token_no_user(self):
+        """Test that token is not created if user doesnot exists"""
+        payload = {
+            'email': 'paritosh.ghimire666@gmail.com',
+            'password': 'npp',
+            'name': 'psg',
+            'phone_number': '9802051714'}
+        response = self.client.post(TOKEN_URL, payload)
+
+        self.assertNotIn('token', response.data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_token_missing_field(self):
+        """Test that email and password are required"""
+        payload = {
+            'email': 'paritosh.ghimire666@gmail.com',
+            'password': 'npp',
+            'name': '',
+            'phone_number': '9802051714'}
+        response = self.client.post(TOKEN_URL, payload)
+
+        self.assertNotIn('token', response.data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
