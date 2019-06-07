@@ -8,6 +8,7 @@ from rest_framework import status
 
 CREATE_USER_URL = reverse('userextended:create-user')
 TOKEN_URL = reverse('userextended:token-user')
+ME_URL = reverse('userextended:me-user')
 
 
 def create_user(**params):
@@ -117,3 +118,53 @@ class PublicUserApiTest(TestCase):
 
         self.assertNotIn('token', response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_user_unauthorised(self):
+        """Test that authentication is required for users"""
+        response = self.client.get(ME_URL)
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class PrivateUserApiTests(TestCase):
+    def setUp(self):
+        self.user = create_user(
+            email="psg@gmail.com",
+            password="helpme123",
+            name="psg",
+            phone_number="9802051714",)
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
+
+    def test_retrieve_profile_successful(self):
+        """Test retrieving profile for logged in user"""
+        respose = self.client.get(ME_URL)
+        self.assertEqual(respose.status_code, status.HTTP_200_OK)
+        self.assertEqual(respose.data, {
+            'name': self.user.name,
+            'email': self.user.email,
+            'phone_number': self.user.phone_number,
+            'gender': 'M'})
+
+    def test_post_is_not_allowed(self):
+        """Test that post is not allowed pn get user profile url"""
+        response = self.client.post(ME_URL, {})
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_update_user_profile(self):
+        """Test updating the user profile for authenticated user"""
+        payload = {
+            'name': "my new name",
+            'password': 'newsecretpassword',
+            'email': 'aniceemail@niceemail.com',
+            'phone_number': '9812345678'}
+        response = self.client.patch(ME_URL, payload)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.name, payload['name'])
+        self.assertEqual(self.user.email, payload['email'])
+        self.assertEqual(self.user.phone_number, payload['phone_number'])
+        self.assertTrue(self.user.check_password(payload['password']))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

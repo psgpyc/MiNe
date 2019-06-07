@@ -25,6 +25,8 @@ services:
   db:
     container_name: minedb
     image: postgres:10-alpine
+    ports:
+      - "5433:5432"
     environment:
       - POSTGRES_DB=mine
       - POSTGRES_USER=postgres

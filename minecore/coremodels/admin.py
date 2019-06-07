@@ -5,11 +5,11 @@ from .models import User
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
-    list_display = ['email', 'name']
+    list_display = ['email', 'name', 'phone_number']
 
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Personal Info', {'fields': ('name',)}),
+        (None, {'fields': ('email',)}),
+        ('Personal Info', {'fields': ('name', 'phone_number', 'gender')}),
         (
             'Permissions',
             {

@@ -65,3 +65,13 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_superuser)
+
+    def test_create_new_staffuser(self):
+        """Test to validate a staff user is created successfully"""
+
+        user = get_user_model().objects.create_staff(
+            email="mine@mine.com",
+            password="nepal123",
+        )
+        self.assertTrue(user.is_staff)
+        self.assertFalse(user.is_superuser)

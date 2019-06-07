@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'coreuseraccounts.apps.CoreuseraccountsConfig',
+    'coremodels.apps.CoreuseraccountsConfig',
     'userextended.apps.UserextendedConfig',
     'rest_framework.authtoken',
     'rest_framework',
@@ -62,6 +62,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'minecore.wsgi.application'
+
+
 
 
 # Database
@@ -116,4 +118,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'coreuseraccounts.User'
+
+
+AUTH_USER_MODEL = 'coremodels.User'
+
+AUTHENTICATION_BACKENDS = (
+                            'coremodels.backends.CustomLoginViaPhoneBackend',
+                           'django.contrib.auth.backends.ModelBackend',
+                           )
+
+
