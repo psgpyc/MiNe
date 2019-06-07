@@ -2,6 +2,17 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 
+from .. import models
+
+
+def sample_user():
+    """create a sample superuser"""
+    email = "psg@gmail.com"
+    password = "mysecretpassword"
+    return get_user_model().objects.create_superuser(
+        email=email,
+        password=password)
+
 
 class ModelTests(TestCase):
 
@@ -75,3 +86,11 @@ class ModelTests(TestCase):
         )
         self.assertTrue(user.is_staff)
         self.assertFalse(user.is_superuser)
+
+    def test_tag_str(self):
+        """Test the tag string representation"""
+        tag = models.Tag.objects.create(
+            user=sample_user(),
+            name='hemp')
+
+        self.assertEqual(str(tag), tag.name)

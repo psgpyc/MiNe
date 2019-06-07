@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'coremodels.apps.CoreuseraccountsConfig',
     'userextended.apps.UserextendedConfig',
+    'products.apps.ProductsConfig',
+
     'rest_framework.authtoken',
     'rest_framework',
 
