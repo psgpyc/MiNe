@@ -94,3 +94,34 @@ class ModelTests(TestCase):
             name='hemp')
 
         self.assertEqual(str(tag), tag.name)
+
+    def test_RelatedTypes_str(self):
+        """Test the RelatedTypes string representation"""
+        related_type = models.RelatedProductTypes.objects.create(
+            name='Cotton'
+        )
+        self.assertEqual(str(related_type), related_type.name)
+
+    def test_RelatedTypes_verbose_name(self):
+        self.assertEqual(
+            str(models.RelatedProductTypes._meta.verbose_name),
+            "Related Product")
+
+        self.assertEqual(
+            str(models.RelatedProductTypes._meta.verbose_name_plural),
+            "Related Product Types")
+
+    def test_RelatedColors_str(self):
+        """Test the RelatedColors string representation"""
+        related_color = models.RelatedProductColors.objects.create(
+            name="Red"
+        )
+        self.assertEqual(str(related_color), related_color.name)
+
+    def test_RelatedColors_verbose_name(self):
+        self.assertEqual(
+            str(models.RelatedProductColors._meta.verbose_name),
+            "Product Color")
+        self.assertEqual(
+            str(models.RelatedProductColors._meta.verbose_name_plural),
+            "Product Color Types")

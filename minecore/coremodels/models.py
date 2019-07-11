@@ -105,3 +105,32 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RelatedProductTypes(models.Model):
+    name = models.CharField(
+        help_text='Products related type. eg: Kitchenware',
+        max_length=255,
+        unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Related Product Types'
+        verbose_name = 'Related Product'
+
+
+class RelatedProductColors(models.Model):
+    name = models.CharField(
+        help_text='Products Colors',
+        max_length=100,
+        unique=True,
+        verbose_name='Color Name')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Product Color Types'
+        verbose_name = 'Product Color'

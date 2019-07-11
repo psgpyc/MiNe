@@ -27,10 +27,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'coremodels.apps.CoreuseraccountsConfig',
     'userextended.apps.UserextendedConfig',
-    'products.apps.ProductsConfig',
 
     'rest_framework.authtoken',
     'rest_framework',
+    'coreproductmodel.apps.CoreproductmodelConfig'
 
 
 ]
@@ -119,6 +119,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = 'vol/web/media'
+STATIC_ROOT = 'vol/web/static'
 
 
 
@@ -128,5 +132,7 @@ AUTHENTICATION_BACKENDS = (
                             'coremodels.backends.CustomLoginViaPhoneBackend',
                            'django.contrib.auth.backends.ModelBackend',
                            )
+
+
 
 
