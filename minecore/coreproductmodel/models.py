@@ -14,16 +14,16 @@ from coremodels.models import (
 from django.utils.text import slugify
 
 
-
 def upload_productimage_path(self, filename):
     return 'product_images/{category}/{name}/{filename}'.format(
-        category= self.catalog_category,
+        category=self.catalog_category,
         name=self.name,
         filename=filename)
 
+
 def upload_product_related_image_path(self, filename):
     return 'product_images/{category}/{name}/{filename}'.format(
-        category= self.product_name.catalog_category,
+        category=self.product_name.catalog_category,
         name=self.product_name.name,
         filename=filename)
 
