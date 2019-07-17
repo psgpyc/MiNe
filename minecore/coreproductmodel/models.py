@@ -14,10 +14,17 @@ from coremodels.models import (
 from django.utils.text import slugify
 
 
+
 def upload_productimage_path(self, filename):
     return 'product_images/{category}/{name}/{filename}'.format(
-        category=self.category,
+        category= self.catalog_category,
         name=self.name,
+        filename=filename)
+
+def upload_product_related_image_path(self, filename):
+    return 'product_images/{category}/{name}/{filename}'.format(
+        category= self.product_name.catalog_category,
+        name=self.product_name.name,
         filename=filename)
 
 
@@ -132,7 +139,7 @@ class ProductImages(models.Model):
     product_name = models.ForeignKey(
         Products, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(
-        upload_to=upload_productimage_path, null=True, blank=True)
+        upload_to=upload_product_related_image_path, null=True, blank=True)
 
     def __str__(self):
         return self.product_name.name
