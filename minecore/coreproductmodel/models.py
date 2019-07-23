@@ -42,6 +42,8 @@ class Catalog(models.Model):
         ('let', 'Leather'),
         ('sou', 'Souvenir'),
         ('mus', 'Musical Instruments'),
+        ('vin', 'Vintage'),
+
 
     ]
     name = models.CharField(max_length=100, unique=True,
@@ -91,7 +93,7 @@ class Products(models.Model):
         help_text=' A products color',
     )
     price = models.DecimalField(
-        max_digits=5,
+        max_digits=15,
         decimal_places=2,
         help_text='A products price'
     )
